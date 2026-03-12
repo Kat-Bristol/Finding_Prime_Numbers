@@ -1,0 +1,135 @@
+
+
+
+# Prime numbers are numbers that can be divided wholy ONLY by themselves (and 1)
+# The smallest prime number is thus the number 2.
+
+# Version 1 - Go through the logic required
+
+n = 20 # upper limit of numbers we are searching though
+number_range = set(range(2, n+1)) # use n+1 as stop point because this way it will stop at 20.
+primes_list = [] # to store the prime numbers that we find
+
+
+
+prime = number_range.pop() # extracts the 1st number of our set (we know this is a prime)
+primes_list.append(prime)
+multiples = set(range(prime*2, n+1, prime)) # our STEP has to be the exact same prime number
+
+# remove any values from our number_range that are multiples of the number we just checked (i.e. not a prime number)
+number_range.difference_update(multiples)
+
+
+
+# Version 2: Create a loop that runs the above lines continually/ automatically
+
+n = 1000 # decide our upper bound
+number_range = set(range(2, n+1)) # decide our number_range to be checked
+primes_list = [] # create an empty list to append discovered primes to
+
+while number_range: # while loop will keep running until the number_range is empty
+   prime = number_range.pop()
+   primes_list.append(prime)
+   multiples = set(range(prime*2, n+1, prime))
+   number_range.difference_update(multiples)
+ 
+print(primes_list)
+prime_count = len(primes_list) # number of primes found
+largest_prime = max(primes_list)
+
+print(f'There are {prime_count} prime numbers between 2 and {n}, the largest of which is {largest_prime}')
+
+
+# Version 3: Put all of this into a function - restart the kernel prior to coding here!
+
+def primes_finder(n):
+
+    number_range = set(range(2, n+1)) # decide our number_range to be checked
+    primes_list = [] # create an empty list to append discovered primes to
+
+    while number_range: # while loop will keep running until the number_range is empty
+       prime = number_range.pop()
+       primes_list.append(prime)
+       multiples = set(range(prime*2, n+1, prime))
+       number_range.difference_update(multiples)
+     
+    print(primes_list)
+    prime_count = len(primes_list) # number of primes found
+    largest_prime = max(primes_list)
+    print(f'There are {prime_count} prime numbers between 2 and {n}, the largest of which is {largest_prime}')
+    
+primes_finder(100)
+print(primes_list) # parameters/variable that are defined/created within a function are not accessible outside it!
+# to fix this we need to use RETURN
+
+
+# Version 4 - restart kernel again before coding below
+    
+def primes_finder(n):
+    number_range = set(range(2, n+1))
+    primes_list = []
+    while number_range:
+       prime = number_range.pop()
+       primes_list.append(prime)
+       multiples = set(range(prime*2, n+1, prime))
+       number_range.difference_update(multiples)  
+    print(primes_list)
+    prime_count = len(primes_list)
+    largest_prime = max(primes_list)
+    print(f'There are {prime_count} prime numbers between 2 and {n}, the largest of which is {largest_prime}')
+    return primes_list
+
+primes_finder(100)
+primes_list = primes_finder(100) # to CAPTURE the primes_list outside the function
+print(primes_list) 
+
+# Version 5 - Clean it so it doesn't output the summary sentence twice
+
+def primes_finder(n):
+    number_range = set(range(2, n+1))
+    primes_list = []
+    while number_range:
+       prime = number_range.pop()
+       primes_list.append(prime)
+       multiples = set(range(prime*2, n+1, prime))
+       number_range.difference_update(multiples)  
+       prime_count = len(primes_list)
+    largest_prime = max(primes_list)
+    print(f'There are {prime_count} prime numbers between 2 and {n}, the largest of which is {largest_prime}')
+    return primes_list
+
+primes_list = primes_finder(10000000) # to CAPTURE the primes_list outside the function
+print(primes_list) 
+
+# NOTE we can see in Variable Explorer the primes_list even if we don't have the last PRINT statement in our code.
+
+# Version 6 - Force a MINIMUM value to be used (i.e. replace the .pop method with the .remove method, from sorted set)
+# The pop() method will usually extract the lowest element of a set. Sets however are, by definition, unordered. 
+# The items are stored internally with some order, but this internal order is determined by the hash code of the key (which is what allows retrieval to be so fast).
+# This hashing method means that we can't 100% rely on it successfully getting the lowest value. In very rare cases, the hash does NOT provide the lowest value!
+
+
+def primes_finder(n):
+    number_range = set(range(2, n+1))
+    primes_list = []
+    while number_range:
+       prime = min(sorted(number_range))
+       number_range.remove(prime)
+       primes_list.append(prime)
+       multiples = set(range(prime*2, n+1, prime))
+       number_range.difference_update(multiples)  
+       prime_count = len(primes_list)
+    largest_prime = max(primes_list)
+    print(f'There are {prime_count} prime numbers between 2 and {n}, the largest of which is {largest_prime}')
+    return primes_list
+
+primes_list = primes_finder(1000) # to CAPTURE the primes_list outside the function
+print(primes_list) 
+
+#NOTE: However, because we have to sort the list for each iteration of the loop to get the minimum value, it's slightly slower than with pop()!
+
+
+
+
+
+
