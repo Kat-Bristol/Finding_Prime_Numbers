@@ -88,6 +88,11 @@ function findPrimes() {
     let start = Number(document.getElementById("start").value);
     let end = Number(document.getElementById("end").value);
 
+    if (start > end) {
+    document.getElementById("summary").innerText = "Please make sure the start number is smaller than the end number.";
+    return;
+    }
+
     let allPrimes = primesFinder(end);
 
     let rangePrimes = allPrimes.filter(p => p >= start);
@@ -114,3 +119,4 @@ function findPrimes() {
 </body>
 
 </html>
+
